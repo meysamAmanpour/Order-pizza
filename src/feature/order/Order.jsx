@@ -7,10 +7,13 @@ import { useEffect } from "react";
 function Order() {
   const fetcher = useFetcher();
 
-  useEffect(function () {
-    fetcher.load("/menu");
-    console.log(fetcher);
-  }, []);
+  useEffect(
+    function () {
+      if (!fetcher.data && fetcher.state === "idle") fetcher.load("/menu");
+      console.log(fetcher);
+    },
+    [fetcher]
+  );
 
   const order = useLoaderData();
   const {
@@ -41,11 +44,12 @@ function Order() {
         {cart.map((item) => (
           <OrderItem
             item={item}
-            isLoadingIngridient={fetcher.state === "loading"}
-            ingridients={
-              fetcher?.data?.find((item) => item.pizzaId === id)?.ingridients
+            isLoadingIngredient={fetcher.state === "loading"}
+            ingredients={
+              fetcher?.data?.find((el) => el.id === item.pizzaId)
+                ?.ingredients ?? []
             }
-            key={item.pizzaId}
+            key={item.name}
           />
         ))}
       </ul>

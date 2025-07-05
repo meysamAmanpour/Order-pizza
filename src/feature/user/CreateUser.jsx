@@ -17,11 +17,11 @@ function CreateUser() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col items-center space-y-4">
-        <p className="text-md font-semibold ">
+        <p className=" mt-8  text-lg font-semibold ">
           👋 Welcome! Please start by telling us your name:
         </p>
         <input
-          className="input w-64"
+          className="input w-80"
           type="text"
           placeholder="your full name..."
           value={username}

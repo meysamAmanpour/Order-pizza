@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Form, redirect, useActionData } from "react-router";
+import { Form, redirect, useActionData, useNavigation } from "react-router";
 import Button from "../../ui/Button";
 import { createOrder } from "../../services/apiRestaurant";
 import store from "../../store";
@@ -16,9 +16,10 @@ function CreateOrder() {
   const username = useSelector((state) => state.user.username);
   const cart = useSelector((state) => state.cart.cart);
   // const dispatch=useDispatch();
-
   const formErrors = useActionData();
 
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
   return (
     <div className="py-6 px-4">
       <h2 className="mb-8 text-xl font-semibold">
@@ -84,7 +85,9 @@ function CreateOrder() {
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
           <input type="hidden" name="position" />
-          <Button type="primary">order now</Button>
+          <Button type="primary" disabled={isSubmitting}>
+            {isSubmitting ? "placing order" : "order now"}
+          </Button>
 
           {/* <button
                disabled={isSubmiting}

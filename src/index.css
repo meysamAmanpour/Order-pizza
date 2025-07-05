@@ -4,10 +4,10 @@
 
 @layer components {
   .input {
-    @apply w-36 bg-blue-100 px-2 py-1 border-stone-500 rounded-full transition-all
+    @apply w-64 h-10 bg-blue-100 px-2 py-1 border-stone-500 rounded-full transition-all
             duration-500 
-            sm:w-64
-            placeholder:text-xs
+            sm:w-72
+            placeholder:text-sm
             focus:outline-none
             focus:ring
             focus:ring-blue-200

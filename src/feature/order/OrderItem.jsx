@@ -1,4 +1,4 @@
-function OrderItem({ item, isLoadingIngridient, ingridient }) {
+function OrderItem({ item, isLoadingIngredient, ingredients }) {
   const { name, quantity, unitPrice } = item;
 
   return (
@@ -7,7 +7,7 @@ function OrderItem({ item, isLoadingIngridient, ingridient }) {
         <span>{quantity}&times; </span>
         <span>{name}</span>
         <p className="italic text-sm text-slate-500">
-          {isLoadingIngridient ? "loading..." : { ingridient }}
+          {isLoadingIngredient ? "loading..." : `${ingredients.join(", ")}`}
         </p>
         <p>unit price: {unitPrice} $</p>
       </div>

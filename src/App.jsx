@@ -11,7 +11,6 @@ import CreateOrder, {
 // import CreateOrder from "./feature/order/CreateOrder";
 import Order from "./feature/order/Order";
 import { loader as orderLoader } from "./feature/order/Order";
-import CreateOrderOld from "./feature/order/CreateOrderOld";
 
 const router = createBrowserRouter([
   {
