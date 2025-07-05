@@ -2,14 +2,14 @@ import { Form, redirect, useActionData } from "react-router";
 import { createOrder } from "../../services/apiRestaurant";
 import Button from "../../ui/Button";
 import { useSelector } from "react-redux";
-import store from "../../store"
+import store from "../../store";
 import { clearCart } from "../cart/cartSlice";
 import { useState } from "react";
 // import { fetchAddress } from "../user/userSlice";
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-    str,
+    str
   );
 
 // const fakeCart = [
@@ -37,52 +37,65 @@ const isValidPhone = (str) =>
 // ];
 
 function CreateOrder() {
-
   // const navigation = useNavigation();
   // const isSubmiting = navigation.state === "submitting";
   const formErrors = useActionData();
   const [withPriority, setWithPriority] = useState(false);
-  
+
   // const dispatch=useDispatch();
 
-  const cart = useSelector(state=>state.cart.cart);
-  const totalPriceCart=23;
-  const priority=withPriority ? 0.2 : 0 ;
-  const totalPrice=totalPriceCart+(totalPriceCart*priority)
-  const {username}=useSelector(state=>state.user);
+  const cart = useSelector((state) => state.cart.cart);
+  const totalPriceCart = 23;
+  const priority = withPriority ? 0.2 : 0;
+  const totalPrice = totalPriceCart + totalPriceCart * priority;
+  const { username } = useSelector((state) => state.user);
 
   // const isLoadingAddress=addressStatus==="loading";
 
-console.log(totalPrice)
+  console.log(totalPrice);
 
-  return (  
+  return (
     <div className="py-6 px-4">
-      <h2 className="mb-8 text-xl font-semibold">Ready to order? Let`&apos;s go! {username}</h2>
-
+      <h2 className="mb-8 text-xl font-semibold">
+        Ready to order? Let`&apos;s go! {username}
+      </h2>
 
       <Form method="POST">
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center  ">
-          <label className="sm:basis-40" >First Name</label>
-          <input className="input grow" type="text" name="customer"
-          defaultValue={username}
-          required />
+          <label className="sm:basis-40">First Name</label>
+          <input
+            className="input grow"
+            type="text"
+            name="customer"
+            defaultValue={username}
+            required
+          />
         </div>
 
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center   ">
-          <label className="sm:basis-40" >Phone number</label>
+          <label className="sm:basis-40">Phone number</label>
           <div className="grow">
             <input className="input w-full" type="tel" name="phone" required />
-          {formErrors?.phone && <p className="mt-2 text-xs text-red-700 bg-red-100 p-2 rounded-md">{formErrors.phone}</p>}
+            {formErrors?.phone && (
+              <p className="mt-2 text-xs text-red-700 bg-red-100 p-2 rounded-md">
+                {formErrors.phone}
+              </p>
+            )}
           </div>
         </div>
 
         <div className=" relative mb-5 flex flex-col gap-2 sm:flex-row sm:items-center  ">
-          <label className="sm:basis-40" >Address</label>
+          <label className="sm:basis-40">Address</label>
           <div className="grow">
-            <input type="text" name="address"  required className="input w-full " />
+            <input
+              type="text"
+              name="address"
+              required
+              className="input w-full "
+            />
           </div>
           <div className="absolute right-0.5 top-0.5">
-           {/* {!position.latitude&& !position.longitute?  <Button disabled={isLoadingAddress} type="small"  onClick={(e)=>{
+            {/* {!position.latitude&& !position.longitute?  <Button disabled={isLoadingAddress} type="small"  onClick={(e)=>{
               e.preventDefault();
               dispatch(fetchAddress())
             }}>get position</Button>:null} */}
@@ -98,17 +111,17 @@ console.log(totalPrice)
             value={withPriority}
             onChange={(e) => setWithPriority(e.target.checked)}
           />
-          <label className="font-medium" htmlFor="priority">Want to you give your order priority?</label>
+          <label className="font-medium" htmlFor="priority">
+            Want to you give your order priority?
+          </label>
         </div>
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <input type="hidden" name="position"  />
-          <Button type="primary" >
-            order now
-          </Button>
+          <input type="hidden" name="position" />
+          <Button type="primary">order now</Button>
 
-         {/* <button
+          {/* <button
                disabled={isSubmiting}
                className="uppercase py-3 px-4 rounded-full bg-yellow-400 tracking-wide inline-block font-semibold text-stone-800 hover:bg-yellow-300 
            transition-colors duration-1000
@@ -116,14 +129,11 @@ console.log(totalPrice)
            >
                {isSubmiting? "placing order..." : "order now"}
                </button> */}
-              
-               
         </div>
       </Form>
     </div>
   );
 }
-
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -141,13 +151,12 @@ export async function action({ request }) {
   if (Object.keys(errors).length > 0) return errors;
 
   const newOrder = await createOrder(order);
-  console.log(newOrder)
+  console.log(newOrder);
   store.dispatch(clearCart());
   return redirect(`/order/${newOrder.id}`);
 }
 
 export default CreateOrder;
-
 
 ///////////////////////////////////////////////////////////////////
 
@@ -166,7 +175,7 @@ export default CreateOrder;
 //         <div className="py-6 px-4">
 //             <h2 className="mb-8 font-semibold text-xl">Ready to order? Let`&apos;s go!{username}</h2>
 //             <Form method="POST">
-            
+
 //            <div className="flex flex-col gap-2 sm:flex-row sm:items-center mb-6">
 //                  <label className="sm:basis-40" >first name</label>
 //                  <input type="text" name="name" className="input w-full" />
@@ -188,8 +197,7 @@ export default CreateOrder;
 //                 <Button  type="primary">order now</Button>
 //             </div>
 
-           
-//         </Form> 
+//         </Form>
 //         </div>
 //     )
 // }
@@ -201,14 +209,13 @@ export default CreateOrder;
 // //     const order={
 // //         ...data,
 // //         cart:JSON.parse(data.cart),
-// //         priority:data.priority==="true", 
+// //         priority:data.priority==="true",
 // //     }
 // //     console.log(order)
 // //     const newOrder=await createOrder(order);
 // // console.log(newOrder)
 // //     return redirect(`/order/${newOrder.id}`)
 // // }
-
 
 // export async function action({ request }) {
 //   const formData = await request.formData();
@@ -234,5 +241,3 @@ export default CreateOrder;
 // }
 
 // export default CreateOrder;
-
-
